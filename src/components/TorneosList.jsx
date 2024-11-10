@@ -38,6 +38,9 @@ export function TorneosList(){
                         <Card.Text>
                             Lugar: {torneo.ubicacion}
                         </Card.Text>
+                        <Card.Text>
+                            Organizador: {torneo.fk_organizador.first_name} {torneo.fk_organizador.last_name}
+                        </Card.Text>
                         <Button variant="primary"
                             onClick={()=>{
                                 navigate("/torneos/" + torneo.id_torneo)

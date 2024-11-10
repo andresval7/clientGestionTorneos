@@ -30,12 +30,15 @@ export function ParticipanList(){
                   <Card style={{ width: '18rem' }} >
                       <Card.Img variant="top" src="holder.js/100px180" />
                       <Card.Body>
-                      <Card.Title>{participa.id_id_participa}</Card.Title>
+                      <Card.Title>{participa.id_encuentro_fk.id_torneo_fke.nombre_torneo}</Card.Title>
                       <Card.Text>
-                          Encuentro: {participa.id_encuentro_fk}
+                          Encuentro: {participa.id_encuentro_fk.fase_encuentro} - Partido: {participa.id_encuentro_fk.id_encuentro}
                       </Card.Text>
                       <Card.Text>
-                          Equipo: {participa.id_equipo_fk}
+                          Equipo: {participa.id_equipo_fk.nombre_equipo}
+                      </Card.Text>
+                      <Card.Text>
+                          Anotaciones: {participa.anotaciones}
                       </Card.Text>
                       <Card.Text>
                           Resultado: {participa.resultado}

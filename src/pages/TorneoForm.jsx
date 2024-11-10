@@ -1,7 +1,9 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { createTorneo, deleteTorneo, getTorneo, updateTorneo } from '../api/torneoApi';
+//import { OrganizadoresList } from '../components/OrganizadoresList';
+import { getAllOrganizadores } from "../api/organizadorApi";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
@@ -20,6 +22,18 @@ export function TorneoForm(){
     const navigate = useNavigate();
     const params = useParams();
     console.log(params);
+
+    const [organizadores, setOrganizadores] = useState([]);
+        
+        useEffect(() => {
+            async function loadOrganizadores(){
+                const res = await getAllOrganizadores();
+                console.log(res);
+                setOrganizadores(res.data);
+            }
+            loadOrganizadores();
+        },[]
+        );
 
     const onSubmit = handleSubmit(async data =>{
         console.log(data);
@@ -70,14 +84,14 @@ export function TorneoForm(){
                     <Col sm="4">
                         <Form.Group className="mb-3">
                         <Form.Label>Fecha de inicio</Form.Label>
-                        <Form.Control type="text" placeholder="fecha_inicio" {...register("fecha_inicio",{required: true})}/>
+                        <Form.Control type="date" placeholder="fecha_inicio" {...register("fecha_inicio",{required: true})}/>
                         {errors.Fecha_inicio && <span>La fecha es requerido</span>}
                         </Form.Group>
                     </Col>
                     <Col sm="4">
                         <Form.Group className="mb-3">
                         <Form.Label>Fecha finalización</Form.Label>
-                        <Form.Control type="text" placeholder="fecha_fin" {...register("fecha_fin",{required: true})}/>
+                        <Form.Control type="date" placeholder="fecha_fin" {...register("fecha_fin",{required: true})}/>
                         {errors.Fecha_fin && <span>La fecha es requerida</span>}
                         </Form.Group>
                     </Col>
@@ -107,8 +121,19 @@ export function TorneoForm(){
                 <Row>
                     <Col sm="4">
                         <Form.Group className="mb-3">
-                        <Form.Label>Organizador</Form.Label>
+                        {/*<Form.Label>Organizador</Form.Label>
                         <Form.Control type="text" placeholder="fk_organizador" {...register("fk_organizador",{required: true})}/>
+                        */}
+
+                        <Form.Select name="fk_organizador" {...register("fk_organizador",{required: true})}>
+                            {organizadores.map( organizador => (
+                                    <option key={organizador.id} value={organizador.id}>
+                                        {organizador.first_name} {organizador.last_name}</option>
+                                ))}
+
+                        </Form.Select>
+                        <br />
+
                         </Form.Group>
                     </Col>
                     

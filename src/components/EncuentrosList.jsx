@@ -29,7 +29,7 @@ export function EncuentrosList(){
                   <Card style={{ width: '18rem' }} >
                       <Card.Img variant="top" src="holder.js/100px180" />
                       <Card.Body>
-                      <Card.Title>{encuentro.id_torneo_fke}</Card.Title>
+                      <Card.Title>{encuentro.id_torneo_fke.nombre_torneo} - {encuentro.fase_encuentro}</Card.Title>
                       <Card.Text>
                           Fecha: {encuentro.fecha}
                       </Card.Text>

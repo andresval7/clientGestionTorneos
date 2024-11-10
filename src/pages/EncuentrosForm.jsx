@@ -44,7 +44,7 @@ export function EncuentroForm(){
                 console.log("solicitar datos");
                 const res = await getEncuentro(params.id_encuentro);
                 console.log(res);
-                setValue ('id_torneo_fke', res.data.id_torneo_fke);
+                setValue ('id_torneo_fke', res.data.id_torneo_fke.nombre_torneo);
                 setValue('fecha', res.data.fecha);
                 setValue('hora', res.data.hora);
                 setValue('ubicacion', res.data.ubicacion);
@@ -68,13 +68,13 @@ export function EncuentroForm(){
                     <Col sm="4">
                         <Form.Group className="mb-3">
                         <Form.Label>Fecha</Form.Label>
-                        <Form.Control type="text" placeholder="fecha" {...register("fecha",{required: true})}/>
+                        <Form.Control type="date" placeholder="fecha" {...register("fecha",{required: true})}/>
                         </Form.Group>
                     </Col>
                     <Col sm="4">
                         <Form.Group className="mb-3">
                         <Form.Label>Hora</Form.Label>
-                        <Form.Control type="text" placeholder="hora" {...register("hora",{required: true})}/>
+                        <Form.Control type="time" placeholder="hora" {...register("hora",{required: true})}/>
                         </Form.Group>
                     </Col>
                 </Row>
