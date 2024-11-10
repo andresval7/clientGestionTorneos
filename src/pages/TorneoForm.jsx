@@ -121,8 +121,8 @@ export function TorneoForm(){
                 <Row>
                     <Col sm="4">
                         <Form.Group className="mb-3">
-                        {/*<Form.Label>Organizador</Form.Label>
-                        <Form.Control type="text" placeholder="fk_organizador" {...register("fk_organizador",{required: true})}/>
+                        <Form.Label>Organizador</Form.Label>
+                        {/*<Form.Control type="text" placeholder="fk_organizador" {...register("fk_organizador",{required: true})}/>
                         */}
 
                         <Form.Select name="fk_organizador" {...register("fk_organizador",{required: true})}>
