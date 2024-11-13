@@ -11,7 +11,7 @@ export function Navigation(){
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="#home"><Link to="/">Inicio</Link></Nav.Link>
+            <Nav.Link href="#home"><Link to="/torneos">Torneos</Link></Nav.Link>
             <Nav.Link href="#link"><Link to="/torneos-add">Nuevo Torneo</Link></Nav.Link>
             
             <Nav.Link><Link to="/equipos">Equipos</Link></Nav.Link>

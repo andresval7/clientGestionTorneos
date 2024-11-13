@@ -1,28 +1,40 @@
 import axios from "axios";
+import { ACCESS_TOKEN } from "../constants";
 
-/*
 const torneoApi = axios.create({
-    baseUrl:'http://127.0.0.1:8000/api/torneos',
+    baseURL:'http://127.0.0.1:8000/api/torneos',
 });
-*/
+
+torneoApi.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem(ACCESS_TOKEN);
+        if(token){
+            config.headers.Authorization = `Bearer ${token}`
+        }
+        return config;
+    },
+    (error)=>{
+        return Promise.reject(error);
+    }
+);
 
 export const getAllTorneos = () =>{
-    return axios.get('http://127.0.0.1:8000/api/torneos/');
+    return torneoApi.get('/');
 }
 
 export const getTorneo = (id_torneo) =>{
-    return axios.get('http://127.0.0.1:8000/api/torneos/' + id_torneo + '/');
+    return torneoApi.get('/' + id_torneo + '/');
 }
 
 
 export const createTorneo = (torneoNuevo) => {
-    return axios.post('http://127.0.0.1:8000/api/torneos/',torneoNuevo);
+    return torneoApi.post('/',torneoNuevo);
 }
 
 export const deleteTorneo = (id_torneo) => {
-    return axios.delete('http://127.0.0.1:8000/api/torneos/' + id_torneo + '/');
+    return torneoApi.delete('/' + id_torneo + '/');
 }
 
 export const updateTorneo = (id_torneo,data) => {
-    return axios.put('http://127.0.0.1:8000/api/torneos/' + id_torneo + '/',data);
+    return torneoApi.put('/' + id_torneo + '/',data);
 }
