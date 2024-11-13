@@ -1,7 +1,9 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { createParticipa, deleteParticipa, getParticipa, updateParticipa } from '../api/participaApi';
+import {getAllEquipos} from '../api/equipoApi';
+import { getAllEncuentros } from '../api/encuentroApi';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -54,6 +56,30 @@ export function ParticipanForm(){
         loadParticipacion();
     },[]);
 
+    const [equipos, setEquipos] = useState([]);
+        
+        useEffect(() => {
+            async function loadEquipos(){
+                const res = await getAllEquipos();
+                console.log(res);
+                setEquipos(res.data);
+            }
+            loadEquipos();
+        },[]
+        );
+
+    const [encuentros, setEncuentros] = useState([]);
+        
+        useEffect(() => {
+            async function loadEncuentros(){
+                const res = await getAllEncuentros();
+                console.log(res);
+                setEncuentros(res.data);
+            }
+            loadEncuentros();
+        },[]
+        );
+
     return(
         <Container>            
             <Form onSubmit={onSubmit}>
@@ -61,21 +87,34 @@ export function ParticipanForm(){
                     <Col sm="4">
                         <Form.Group className="mb-3">
                         <Form.Label>Encuentro</Form.Label>
-                        <Form.Control type="text" placeholder="id_encuentro_fk" {...register("id_encuentro_fk",{required: true})}/>
-                        {errors.id_encuentro_fk && <span>El identificador del encuentro es requerido</span>}  
+                        <Form.Select name="id_encuentro_fk" {...register("id_encuentro_fk",{required: true})}>
+                            {encuentros.map( encuentro => (
+                                    <option key={encuentro.id_encuentro} value={encuentro.id_encuentro}>{encuentro.fase_encuentro} - {encuentro.id_encuentro}</option>
+                                ))}
+
+                        </Form.Select>
+                        <br />
+
                         </Form.Group>
                     </Col>
+                    
                     <Col sm="4">
                         <Form.Group className="mb-3">
                         <Form.Label>Equipo</Form.Label>
-                        <Form.Control type="text" placeholder="id_equipo_fk" {...register("id_equipo_fk",{required: true})}/>
-                        {errors.id_encuentro_fk && <span>El identificador del equipo es requerido</span>}
+                        <Form.Select name="id_equipo_fk" {...register("id_equipo_fk",{required: true})}>
+                            {equipos.map( equipo => (
+                                    <option key={equipo.id_equipo} value={equipo.id_equipo}>{equipo.nombre_equipo}</option>
+                                ))}
+
+                        </Form.Select>
+                        <br />
+
                         </Form.Group>
                     </Col>
                     <Col sm="4">
                         <Form.Group className="mb-3">
                         <Form.Label>Puntuación</Form.Label>
-                        <Form.Control type="text" placeholder="puntuacion" {...register("puntuacion",{required: true})}/>
+                        <Form.Control type="number" placeholder="puntuacion" {...register("puntuacion",{required: false})}/>
                         </Form.Group>
                     </Col>
                 </Row>
@@ -84,7 +123,7 @@ export function ParticipanForm(){
                     <Col sm="4">
                         <Form.Group className="mb-3">
                         <Form.Label>Resultado</Form.Label>
-                        <Form.Control type="text" placeholder="resultado" {...register("resultado",{required: true})}/>
+                        <Form.Control type="text" placeholder="resultado" {...register("resultado",{required: false})}/>
                         </Form.Group>
                     </Col>
 

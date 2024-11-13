@@ -1,7 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { createEncuentro, deleteEncuentro, getEncuentro, updateEncuentro } from '../api/encuentroApi';
+import { getAllTorneos } from '../api/torneoApi';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -37,6 +38,18 @@ export function EncuentroForm(){
         
     }); 
 
+    const [torneos, setTorneos] = useState([]);
+        
+        useEffect(() => {
+            async function loadTorneos(){
+                const res = await getAllTorneos();
+                console.log(res);
+                setTorneos(res.data);
+            }
+            loadTorneos();
+        },[]
+        );
+
     //Para rellenar un formulario si hay un parámetro en la url
     useEffect(() =>{
         async function loadEncuentro(){
@@ -44,7 +57,7 @@ export function EncuentroForm(){
                 console.log("solicitar datos");
                 const res = await getEncuentro(params.id_encuentro);
                 console.log(res);
-                setValue ('id_torneo_fke', res.data.id_torneo_fke.nombre_torneo);
+                setValue ('id_torneo_fke', res.data.id_torneo_fke);
                 setValue('fecha', res.data.fecha);
                 setValue('hora', res.data.hora);
                 setValue('ubicacion', res.data.ubicacion);
@@ -61,10 +74,17 @@ export function EncuentroForm(){
                     <Col sm="4">
                         <Form.Group className="mb-3">
                         <Form.Label>Torneo</Form.Label>
-                        <Form.Control type="text" placeholder="id_torneo_fke" {...register("id_torneo_fke",{required: true})}/>
-                        {errors.id_torneo_fke && <span>El nombre del torneo es requerido</span>}  
+                        <Form.Select name="id_torneo_fke" {...register("id_torneo_fke",{required: true})}>
+                            {torneos.map( torneo => (
+                                    <option key={torneo.id_torneo} value={torneo.id_torneo}>{torneo.nombre_torneo}</option>
+                                ))}
+
+                        </Form.Select>
+                        <br />
+
                         </Form.Group>
                     </Col>
+
                     <Col sm="4">
                         <Form.Group className="mb-3">
                         <Form.Label>Fecha</Form.Label>
