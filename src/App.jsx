@@ -15,6 +15,8 @@ import { Home } from "./pages/Home";
 import { NotFound } from "./pages/NotFound";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import {Toaster} from "react-hot-toast";
+import { Inicio } from "./pages/Inicio";
+
 
 function Logout(){
   localStorage.clear();
@@ -33,6 +35,7 @@ function App(){
     <Navigation></Navigation>
       <Routes>
         <Route path="/" element={<ProtectedRoute><Home/></ProtectedRoute>}/>
+        <Route path="/inicio" element={<Inicio/>} />
         <Route path="/login" element={<Login/>} />
         <Route path="/logout" element={<Logout/>} />
         <Route path="/register" element={<RegisterAndLogout/>} />
