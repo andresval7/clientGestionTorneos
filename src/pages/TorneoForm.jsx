@@ -9,6 +9,7 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import toast from 'react-hot-toast';
 
 export function TorneoForm(){
 
@@ -40,12 +41,26 @@ export function TorneoForm(){
         //Validación para saber si se va a crear o actualizar un torneo
         if(params.id_torneo){
             await updateTorneo(params.id_torneo,data);
-            alert("Datos del torneo modificados satisfactoriamente");
+            //alert("Datos del torneo modificados satisfactoriamente");
+            toast.success('Datos del torneo modificados satisfactoriamente',{
+                position:"bottom-center",
+                style:{
+                    background: "#101010",
+                    color:"#fff"
+                }
+            });
         }
         else{
             const res = await createTorneo(data);
             console.log(res);
-            alert("Nuevo torneo creado");
+            //alert("Nuevo torneo creado");
+            toast.success('Torneo creado',{
+                position:"bottom-center",
+                style:{
+                    background: "#101010",
+                    color:"#fff"
+                }
+            });
         }
         navigate('/torneos')
         
